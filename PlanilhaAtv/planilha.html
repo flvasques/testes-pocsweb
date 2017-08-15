@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Contador de Atividades</title>
+		<link href="estilo.css" rel="stylesheet"> 
+	</head>
+	<body>
+	<script type="text/javascript" src="controler.js"></script>
+		<h1>Planilha Diaria</h1>
+		<hr />
+		<div class="card">
+			<h2>Atividades</h2>
+			<table id="itens" >
+				<th>Atividade</th>
+				<th>Horario de Inicio</th>
+				<th>Horario Final / Tempo Total</th>
+				<tr id="add">
+					<td><input type="text" id="tituloAtividade"></td>
+					<td colspan="2"><button onclick="addAtv()" title="Nova Atividade">Adicionar</button></td>
+				</tr>
+			</table>
+		</div>
+		<!--
+		<div class="card" id="custos">
+			<h2>Custos</h2>
+			<table id="custoItens">
+				<th>Natureza</th>
+				<th>Valor</th>
+			</table>
+			<div id="resultado">R$ 0,00</div>
+			<div><input type="button" id="add" value="Novo" onclick="addcusto()" title="Despesas" /></div>
+		</div>
+		-->
+	</body>
+</html>
