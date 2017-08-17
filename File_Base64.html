@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>Teste Imagem e etc</title>
+	</head>
+	<script>
+		 function redimencionar(image) {
+            var larguraTotal = image.width;
+            var largura = window.innerWidth;
+            var novalargura = (largura * 45) / 100;
+            image.width = novalargura;
+            var imageWitdhPorcentagem = (novalargura * 100) / larguraTotal;
+            var imageHeight = image.height;
+            image.height = (imageHeight * imageWitdhPorcentagem) / 100;
+            return image;
+        }
+		var img = new Image();
+		var t = 'Arquivo_de_Imagem_base64';
+		img.src = "data:image/*;base64,"+t;
+	
+		img.onload = function () {
+	        document.body.appendChild(img);
+			console.log(img.width);
+			console.log(img.height);
+			//window.print();
+        };
+        //Exemplo para Salvar arquivos base64
+		function browserDetection(arquivo,tipo) { 
+		  if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ) {
+		    return 'opara';
+		  }
+		  else if ((navigator.userAgent.indexOf("Chrome") != -1) && (navigator.userAgent.indexOf("Edge") == -1)) {
+		    var link = document.createElement('a');
+		    link.setAttribute('href', decodeURI('data:application/octet-stream;base64,' + arquivo));
+		    link.setAttribute('target', '_blank');
+		    link.setAttribute('download', 'Extrato_da_Conta.' + tipo);
+		    link.setAttribute('type', 'text/plain');
+		    link.setAttribute('id', 'arquivo');
+		    simulateClick(link);
+		    link = null;
+		    return 'Chrome';
+		  }
+		  else if ((navigator.userAgent.indexOf("Safari") != -1) && (navigator.userAgent.indexOf("Edge") == -1)) {
+		      return 'safari';
+		  }
+		  else if ((navigator.userAgent.indexOf("Firefox") != -1) && (navigator.userAgent.indexOf("Edge") == -1)) {
+		    var link = document.createElement('a');
+		    link.setAttribute('href', decodeURI('data:application/octet-stream;base64,' + arquivo));
+		    link.setAttribute('target', '_blank');
+		    link.setAttribute('download', 'Extrato_da_Conta.' + tipo);
+		    link.setAttribute('type', 'text/plain');
+		    link.setAttribute('id', 'arquivo');
+		    link = null;
+		    simulateClick(link);
+		    return 'firefox';
+		  }
+		  else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) {
+		    //IF IE > 10
+		    return 'IE'; 
+		  }
+		  else if ((navigator.userAgent.indexOf("Edge") != -1)) {
+		    var nome = 'Extrato_da_Conta.' + tipo;
+		    var raw = window.atob(arquivo);
+		    var rawLength = raw.length;
+		    var array = new Uint8Array(new ArrayBuffer(rawLength));
+		    for(var i = 0; i < rawLength; i++) {
+		        array[i] = raw.charCodeAt(i);
+		    }
+		    var arquivoBlob = new Blob([array], { type: 'application/pdf' });
+		    window.top.navigator.msSaveOrOpenBlob(arquivoBlob, nome);
+		    return 'edge';
+		  }
+		  else{
+		    return'default';
+		  }
+		}
+
+		function simulateClick(arquivo) {
+		    var event = new MouseEvent('click', {
+		        'view': window,
+		        'bubbles': true,
+		        'cancelable': true
+		    });
+		    arquivo.dispatchEvent(event);
+		}
+	</script>
+	<body id="corpo">
+		<h1>EXEMPLO DE CÓDIGO UNS TESTES QUE FUNCINARAM</h1>
+		<h2>TANTO PARA MANIPULAÇÃO DE IMAGENS DE OUTROS ERQUIVOS EM QUE CHEGAM EM BASE 64</h2>
+	</body>
+</html>
