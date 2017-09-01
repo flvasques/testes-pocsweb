@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 	<head>
 		<title>Contador de Atividades</title>
-		<link href="estilo.css" rel="stylesheet"> 
+		<link href="estilo.css" rel="stylesheet" /> 
+		<meta charset="utf-8">
+		<script type="text/javascript" src="controler.js"></script>
 	</head>
-	<body>
-	<script type="text/javascript" src="controler.js"></script>
+	<body onload="carregar()">
+	
 		<h1>Planilha Diaria</h1>
 		<hr />
 		<div class="card">
@@ -20,6 +22,7 @@
 				</tr>
 			</table>
 		</div>
+		<span style="margin-left:90%;"><button onclick="apagar()">Limpar Sessão</button></span>
 		<!--
 		<div class="card" id="custos">
 			<h2>Custos</h2>

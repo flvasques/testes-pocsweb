@@ -1,5 +1,10 @@
-var vetorAtividades = [];
+var vetorAtividades = localStorage.getItem('vetorAtividades') != null ? JSON.parse(localStorage.getItem('vetorAtividades')) : [];
 var timer = null;
+window.onunload = function(){
+	if(vetorAtividades.length > 0){
+		localStorage.setItem('vetorAtividades', JSON.stringify(vetorAtividades));
+	}
+}
 /*
 {
 	nome: '',
@@ -10,6 +15,7 @@ var timer = null;
 }
 */
 function addAtv(){
+	localStorage.clear();
 	vetorAtividades.push({
 		nome: document.getElementById('tituloAtividade').value,
 		inicio: new Date(),
@@ -21,9 +27,9 @@ function addAtv(){
 	addLinha(vetorAtividades.length - 1);
 	novo();
 	if (vetorAtividades.length == 1) {
-		setInterval('incrementarTempo()',1000)
+		setInterval('incrementarTempo()',1000);
 	}
-
+	localStorage.setItem('vetorAtividades', JSON.stringify(vetorAtividades));
 }
 function addLinha(i){
 
@@ -33,7 +39,7 @@ function addLinha(i){
 	tdTitulo.innerHTML = vetorAtividades[i].nome;
 
 	var tdHoraInicio = document.createElement('td');
-	var atual = vetorAtividades[i].inicio;
+	var atual = new Date(vetorAtividades[i].inicio);
 	var inicio = document.createElement('label');
 	inicio.setAttribute('type','text');
 	inicio.setAttribute('size','5');
@@ -48,7 +54,7 @@ function addLinha(i){
 
 	var pTempo = document.createElement('label');
 	pTempo.setAttribute('id','decorrido'+i);
-	pTempo.innerHTML = '00:00:00';
+	pTempo.innerHTML = formatHora(vetorAtividades[i].tempo);
 	tdAcoes.appendChild(pTempo);
 
 	var btnPause = document.createElement('button');
@@ -130,6 +136,20 @@ function pausar(e){
 		document.getElementById('pausa'+e).innerHTML = 'Pause';
 	}
 
+}
+function carregar(){
+	if(vetorAtividades.length > 0){
+		for ( var i = 0; i < vetorAtividades.length; i++ ) {
+			addLinha(i);
+			pausar(i);
+		}
+		setInterval('incrementarTempo()',1000);
+		document.getElementById('add').remove();
+		novo();		
+	}
+}
+function apagar(){
+	localStorage.clear();
 }
 function addcusto(){
 
