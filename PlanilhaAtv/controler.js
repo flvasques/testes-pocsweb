@@ -141,7 +141,7 @@ function carregar(){
 	if(vetorAtividades.length > 0){
 		for ( var i = 0; i < vetorAtividades.length; i++ ) {
 			addLinha(i);
-			pausar(i);
+			if(vetorAtividades[i].finalizado == 'false') pausar(i);
 		}
 		setInterval('incrementarTempo()',1000);
 		document.getElementById('add').remove();
