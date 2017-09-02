@@ -103,7 +103,7 @@ function novo(){
 function finalizar(e){
 	var agora = new Date(); 
 	var horaFinal = agora.getHours() + ':' + (agora.getMinutes() < 10 ?  '0' + agora.getMinutes() : agora.getMinutes()); 
-	if(vetorAtividades[e].finalizado == 'false'){
+	if(vetorAtividades[e].finalizado != 'true'){
 		vetorAtividades[e].finalizado = 'true';
 		var agora = new Date(); 
 		var horaFinal = agora.getHours() + ':' + (agora.getMinutes() < 10 ?  '0' + agora.getMinutes() : agora.getMinutes()); 
@@ -156,7 +156,6 @@ function carregar(){
 	}
 }
 function apagar(){
-	alert("Ainda não implementado completamente");
 	for(var i = 0; i < vetorAtividades.length; i++){
 		if(vetorAtividades[i].finalizado == 'true'){
 			vetorAtividades.splice(i,1);
