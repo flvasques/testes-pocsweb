@@ -2,6 +2,9 @@ var vetorAtividades = localStorage.getItem('vetorAtividades') != null ? JSON.par
 var timer = null;
 window.onunload = function(){
 	if(vetorAtividades.length > 0){
+		for(var i = 0; i < vetorAtividades.length; i++){
+			if(vetorAtividades[i].finalizado == 'false') vetorAtividades[i].finalizado = 'pause';
+		}
 		localStorage.setItem('vetorAtividades', JSON.stringify(vetorAtividades));
 	}
 }
@@ -15,7 +18,6 @@ window.onunload = function(){
 }
 */
 function addAtv(){
-	localStorage.clear();
 	vetorAtividades.push({
 		nome: document.getElementById('tituloAtividade').value,
 		inicio: new Date(),
@@ -29,11 +31,11 @@ function addAtv(){
 	if (vetorAtividades.length == 1) {
 		setInterval('incrementarTempo()',1000);
 	}
-	localStorage.setItem('vetorAtividades', JSON.stringify(vetorAtividades));
 }
 function addLinha(i){
 
 	var tr = document.createElement('tr');
+	tr.setAttribute('id',"tr"+i);
 
 	var tdTitulo = document.createElement('td');
 	tdTitulo.innerHTML = vetorAtividades[i].nome;
@@ -60,7 +62,7 @@ function addLinha(i){
 	var btnPause = document.createElement('button');
 	btnPause.setAttribute('id','pausa'+i);
 	btnPause.setAttribute('onclick', 'pausar('+i+')');
-	btnPause.innerHTML = 'Pause';
+	btnPause.innerHTML = (vetorAtividades[i].finalizado == 'pause') ? 'Play' : 'Pause';
 	tdAcoes.appendChild(btnPause);
 
 	var btnFim = document.createElement('button');
@@ -99,11 +101,16 @@ function novo(){
 }
 
 function finalizar(e){
-	vetorAtividades[e].finalizado = 'true';
 	var agora = new Date(); 
 	var horaFinal = agora.getHours() + ':' + (agora.getMinutes() < 10 ?  '0' + agora.getMinutes() : agora.getMinutes()); 
-	vetorAtividades[e].fim = horaFinal;
-
+	if(vetorAtividades[e].finalizado == 'false'){
+		vetorAtividades[e].finalizado = 'true';
+		var agora = new Date(); 
+		var horaFinal = agora.getHours() + ':' + (agora.getMinutes() < 10 ?  '0' + agora.getMinutes() : agora.getMinutes()); 
+		vetorAtividades[e].fim = horaFinal;
+	}else{
+		horaFinal = vetorAtividades[e].fim;
+	}
 	document.getElementById('decorrido'+e).remove();
 	document.getElementById('cmd'+e).remove();
 	document.getElementById('pausa'+e).remove();
@@ -141,7 +148,7 @@ function carregar(){
 	if(vetorAtividades.length > 0){
 		for ( var i = 0; i < vetorAtividades.length; i++ ) {
 			addLinha(i);
-			if(vetorAtividades[i].finalizado == 'false') pausar(i);
+			if(vetorAtividades[i].finalizado == 'true') finalizar(i);
 		}
 		setInterval('incrementarTempo()',1000);
 		document.getElementById('add').remove();
@@ -149,7 +156,22 @@ function carregar(){
 	}
 }
 function apagar(){
-	localStorage.clear();
+	alert("Ainda não implementado completamente");
+	for(var i = 0; i < vetorAtividades.length; i++){
+		if(vetorAtividades[i].finalizado == 'true'){
+			vetorAtividades.splice(i,1);
+			document.getElementById('tr'+i).remove();
+		}
+	}
+	/*
+	for(var i = 0; i < vetorAtividades.length; i++){
+		if(vetorAtividades[i].finalizado == 'true'){
+			vetorAtividades.splice(i,1);
+			document.getElementById('tr'+i).remove();
+		}
+	}
+	carregar();
+	*/
 }
 function addcusto(){
 
